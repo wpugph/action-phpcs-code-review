@@ -25,7 +25,8 @@ phpcsfilefound=1
 
 for phpcsfile in "${defaultFiles[@]}"; do
   if [[ -f "$RTBOT_WORKSPACE/$phpcsfile" ]]; then
-      phpcs_standard="--phpcs-standard=$RTBOT_WORKSPACE/$phpcsfile"
+      phpcs_path="--phpcs_path='/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs $RTBOT_WORKSPACE/$phpcsfile'"
+      phpcs_standard=""
       phpcsfilefound=0
   fi
 done
@@ -36,11 +37,12 @@ if [[ $phpcsfilefound -ne 0 ]]; then
     else
       phpcs_standard="--phpcs-standard=WordPress"
     fi
+    phpcs_path="--phpcs_path=/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs"
 fi
 
 /usr/games/cowsay "Running with the flag $phpcs_standard"
 
 echo "Running the following command"
-echo "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php --repo-owner=$GITHUB_REPO_OWNER --repo-name=$GITHUB_REPO_NAME --commit=$GITHUB_SHA --token=\$GH_BOT_TOKEN --phpcs-path=/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs --local-git-repo=/home/rtbot/github-workspace --phpcs=true $phpcs_standard --lint=true"
+echo "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php --repo-owner=$GITHUB_REPO_OWNER --repo-name=$GITHUB_REPO_NAME --commit=$GITHUB_SHA --token=\$GH_BOT_TOKEN $phpcs_path --local-git-repo=/home/rtbot/github-workspace --phpcs=true $phpcs_standard --lint=true"
 
 gosu rtbot bash -c "/home/rtbot/vip-go-ci-tools/vip-go-ci/vip-go-ci.php --repo-owner=$GITHUB_REPO_OWNER --repo-name=$GITHUB_REPO_NAME --commit=$GITHUB_SHA --token=$GH_BOT_TOKEN --phpcs-path=/home/rtbot/vip-go-ci-tools/phpcs/bin/phpcs --local-git-repo=/home/rtbot/github-workspace --phpcs=true $phpcs_standard --lint=true"
