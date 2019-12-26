@@ -8,12 +8,14 @@ if [[ "$GITHUB_REF" == *"refs/pull"* ]]; then
   COMMIT_ID=$(git log -n 1 --skip 1 --pretty=format:"%H")
   git checkout -b pr "$COMMIT_ID"
 else
+  git checkout -b pr "$GITHUB_SHA"
   COMMIT_ID="$GITHUB_SHA"
 fi
 
 COMMIT_ID=$GITHUB_SHA
 
 echo 'forked';
+git status
 git log -n 1 --skip 1 --pretty=format:"%H"
 echo 'github sha';
 echo $GITHUB_SHA
