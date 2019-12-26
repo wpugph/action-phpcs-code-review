@@ -11,10 +11,14 @@ else
   COMMIT_ID="$GITHUB_SHA"
 fi
 
+COMMIT_ID=$GITHUB_SHA
+
 echo 'forked';
 git log -n 1 --skip 1 --pretty=format:"%H"
+echo 'github sha';
 echo $GITHUB_SHA
-echo "COMMIT ID: $COMMIT_ID"
+echo 'commits';
+echo "COMMIT ID: $GITHUB_SHA"
 
 stars=$(printf "%-30s" "*")
 
